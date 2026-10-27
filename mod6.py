@@ -44,9 +44,27 @@ class Graph:
         self.adjacency_list = graph_repr
 
     def bfs(self, start):
-        pass
-
+        queue = Queue()
+        queue.enqueue(start)
+        visited = [start]
+        while not queue.isEmpty():
+            node = queue.dequeue()
+            for neighbor in sorted(self.adjacency_list[node]):
+                if neighbor not in visited:
+                    visited.append(neighbor)
+                    queue.enqueue(neighbor)
+        return visited
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod(verbose=True)
+g1 = {'B': ['E', 'C'],'F': [],'C': ['F'],'A': ['D', 'B'],'D': ['C'],'E': ['F']}
+g = Graph(g1)
+g.bfs('A')
+print(g.bfs('A'))
+#['A', 'B', 'D', 'C', 'E', 'F']
+g2 = {'Bran': ['East', 'Cap'],'Flor': [],'Cap':  ['Flor'], 'Apr':  ['Dec', 'Bran'],'Dec':  ['Cap'],'East': ['Flor']}
+g = Graph(g2)
+g.bfs('Apr')
+print(g.bfs('Apr'))
+#['Apr', 'Bran', 'Dec', 'Cap', 'East', 'Flor']
